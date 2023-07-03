@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>A Strange door</title>
+</head>
+<body style= "background-color:black;">
+
+<font size="7" color="#00FF00" face = "Comic Sans MS">
+<center>
+Welcome. 
+<br>
+<br>
+<br>
+All that you once wanted is here, just behind the Dreamer's Door
+<br>
+<br>
+<br>
+<head>
+    <style>
+      .door {
+        position: relative;
+        width: 150px;
+        height: 300px;
+        cursor: pointer;
+        overflow: hidden;
+      }
+  
+      .door img {
+        width: 100%;
+        height: 100%;
+        transition: transform 1s;
+        transform-origin: top left; /* Set the transform origin to top left */
+      }
+  
+      .door::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('IndexDoorinside.png'); /* Replace 'background-image.jpg' with the path to your desired background image */
+        background-size: cover;
+        background-position: center;
+        opacity: 1;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="door" onclick="openDoor()">
+      <img src="door-closed.jpg" alt="Closed Door" id="doorImage">
+    </div>
+  
+    <audio id="creakySound" src="https://cdn.discordapp.com/attachments/654160670073421834/1124956743592579082/open-aim.mp3"></audio>
+  
+    <script>
+      function openDoor() {
+        var doorImage = document.getElementById("doorImage");
+        doorImage.style.transform = "rotateY(90deg)"; /* Change the rotation angle to 90deg */
+  
+        var creakySound = document.getElementById("creakySound");
+        creakySound.play();
+  
+        setTimeout(function() {
+          window.location.href = "inside.html"; // Replace with your desired URL
+        }, 1000); // Replace 1000 with the duration of the door opening sound
+      }
+  
+      window.addEventListener("pageshow", function(event) {
+        var doorImage = document.getElementById("doorImage");
+        doorImage.style.transform = ""; // Reset the transformation when the page is shown
+      });
+    </script>
+  </body>
+<br>
+</center>
+<br>
+<br>
+</font></body></html>

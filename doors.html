@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      background-image: url('sparklebackground.gif'); /* Replace 'background.jpg' with the path to your desired background image */
+      background-position: center;
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px;
+      color: rgb(45, 226, 29);
+      font-size: 48px;
+    }
+
+    .door-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .door-image {
+      text-align: center;
+    }
+
+    .door {
+      position: relative;
+      width: 150px;
+      height: 300px;
+      cursor: pointer;
+      overflow: hidden;
+      margin: 10px;
+    }
+
+    .door img {
+      width: 100%;
+      height: 100%;
+      transition: transform 1s;
+      transform-origin: top left; /* Set the transform origin to top left */
+    }
+
+    .door::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('InsideDoor.gif'); /* Replace 'background-image.jpg' with the path to your desired background image */
+      background-size: cover;
+      background-position: center;
+      opacity: 1;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+    <div class="header">
+        <p>Pick any door, they all lead to a beautiful place</p>
+        <p>I mean, some day they will, once they lead somewhere</p>
+      </div>
+
+  <div class="door-container">
+    <div class="door-image">
+      <img src="home.png" alt="Image Above Door">
+    </div>
+    <div class="door" onclick="openDoor('inside.html')">
+      <img src="door-closed.jpg" alt="Closed Door" id="doorImage">
+    </div>
+
+    <div class="door-image">
+      <img src="HQLArtb.png" alt="Image Above Door">
+    </div>
+    <div class="door" onclick="openDoor('https://hopeslair.neocities.org/webring/index2/members')">
+      <img src="door-closed.jpg" alt="Closed Door" id="doorImage">
+    </div>
+
+    <div class="door-image">
+      <img src="OutOfOrder_Sign.png" alt="Image Above Door">
+    </div>
+    <div class="door" onclick="openDoor('Not Found.html')">
+      <img src="door-closed.jpg" alt="Closed Door" id="doorImage">
+    </div>
+
+    <div class="door-image">
+      <img src="OutOfOrder_Sign.png" alt="Image Above Door">
+    </div>
+    <div class="door" onclick="openDoor('Not Found.html')">
+      <img src="door-closed.jpg" alt="Closed Door" id="doorImage">
+    </div>
+
+
+    </div>
+    <div class="door" onclick="openDoor('secret1.html')">
+      <img src="sparklebackground.gif" alt="Closed Door" id="doorImage">
+    </div>
+  </div>
+
+  <audio id="creakySound" src="https://cdn.discordapp.com/attachments/654160670073421834/1124956743592579082/open-aim.mp3"></audio>
+
+  <script>
+    function openDoor(url) {
+      var doorImage = event.currentTarget.querySelector("img");
+      doorImage.style.transform = "rotateY(90deg)"; /* Change the rotation angle to 90deg */
+
+      var creakySound = document.getElementById("creakySound");
+      creakySound.play();
+
+      setTimeout(function() {
+        window.location.href = url;
+      }, 1000); // Replace 1000 with the duration of the door opening sound
+    }
+
+    window.addEventListener("pageshow", function(event) {
+      var doorImages = document.querySelectorAll(".door img");
+      doorImages.forEach(function(image) {
+        image.style.transform = ""; // Reset the transformation when the page is shown
+      });
+    });
+  </script>
+</body>
+</html>

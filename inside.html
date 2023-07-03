@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<div id="headerArea">
+	<div id="header">
+		<script type="text/javascript">
+			// <![CDATA[
+			var colour="random"; // in addition to "random" can be set to any valid colour eg "#f0f" or "red"
+			var sparkles=50;
+			
+			/****************************
+			*  Tinkerbell Magic Sparkle *
+			*(c)2005-13 mf2fm web-design*
+			*  http://www.mf2fm.com/rv  *
+			* DON'T EDIT BELOW THIS BOX *
+			****************************/
+			var x=ox=400;
+			var y=oy=300;
+			var swide=800;
+			var shigh=600;
+			var sleft=sdown=0;
+			var tiny=new Array();
+			var star=new Array();
+			var starv=new Array();
+			var starx=new Array();
+			var stary=new Array();
+			var tinyx=new Array();
+			var tinyy=new Array();
+			var tinyv=new Array();
+			
+			window.onload=function() { if (document.getElementById) {
+			  var i, rats, rlef, rdow;
+			  for (var i=0; i<sparkles; i++) {
+				var rats=createDiv(3, 3);
+				rats.style.visibility="hidden";
+				rats.style.zIndex="999";
+				document.body.appendChild(tiny[i]=rats);
+				starv[i]=0;
+				tinyv[i]=0;
+				var rats=createDiv(5, 5);
+				rats.style.backgroundColor="transparent";
+				rats.style.visibility="hidden";
+				rats.style.zIndex="999";
+				var rlef=createDiv(1, 5);
+				var rdow=createDiv(5, 1);
+				rats.appendChild(rlef);
+				rats.appendChild(rdow);
+				rlef.style.top="2px";
+				rlef.style.left="0px";
+				rdow.style.top="0px";
+				rdow.style.left="2px";
+				document.body.appendChild(star[i]=rats);
+			  }
+			  set_width();
+			  sparkle();
+			}}
+			
+			function sparkle() {
+			  var c;
+			  if (Math.abs(x-ox)>1 || Math.abs(y-oy)>1) {
+				ox=x;
+				oy=y;
+				for (c=0; c<sparkles; c++) if (!starv[c]) {
+				  star[c].style.left=(starx[c]=x)+"px";
+				  star[c].style.top=(stary[c]=y+1)+"px";
+				  star[c].style.clip="rect(0px, 5px, 5px, 0px)";
+				  star[c].childNodes[0].style.backgroundColor=star[c].childNodes[1].style.backgroundColor=(colour=="random")?newColour():colour;
+				  star[c].style.visibility="visible";
+				  starv[c]=50;
+				  break;
+				}
+			  }
+			  for (c=0; c<sparkles; c++) {
+				if (starv[c]) update_star(c);
+				if (tinyv[c]) update_tiny(c);
+			  }
+			  setTimeout("sparkle()", 40);
+			}
+			
+			function update_star(i) {
+			  if (--starv[i]==25) star[i].style.clip="rect(1px, 4px, 4px, 1px)";
+			  if (starv[i]) {
+				stary[i]+=1+Math.random()*3;
+				starx[i]+=(i%5-2)/5;
+				if (stary[i]<shigh+sdown) {
+				  star[i].style.top=stary[i]+"px";
+				  star[i].style.left=starx[i]+"px";
+				}
+				else {
+				  star[i].style.visibility="hidden";
+				  starv[i]=0;
+				  return;
+				}
+			  }
+			  else {
+				tinyv[i]=50;
+				tiny[i].style.top=(tinyy[i]=stary[i])+"px";
+				tiny[i].style.left=(tinyx[i]=starx[i])+"px";
+				tiny[i].style.width="2px";
+				tiny[i].style.height="2px";
+				tiny[i].style.backgroundColor=star[i].childNodes[0].style.backgroundColor;
+				star[i].style.visibility="hidden";
+				tiny[i].style.visibility="visible"
+			  }
+			}
+			
+			function update_tiny(i) {
+			  if (--tinyv[i]==25) {
+				tiny[i].style.width="1px";
+				tiny[i].style.height="1px";
+			  }
+			  if (tinyv[i]) {
+				tinyy[i]+=1+Math.random()*3;
+				tinyx[i]+=(i%5-2)/5;
+				if (tinyy[i]<shigh+sdown) {
+				  tiny[i].style.top=tinyy[i]+"px";
+				  tiny[i].style.left=tinyx[i]+"px";
+				}
+				else {
+				  tiny[i].style.visibility="hidden";
+				  tinyv[i]=0;
+				  return;
+				}
+			  }
+			  else tiny[i].style.visibility="hidden";
+			}
+			
+			document.onmousemove=mouse;
+			function mouse(e) {
+			  if (e) {
+				y=e.pageY;
+				x=e.pageX;
+			  }
+			  else {
+				set_scroll();
+				y=event.y+sdown;
+				x=event.x+sleft;
+			  }
+			}
+			
+			window.onscroll=set_scroll;
+			function set_scroll() {
+			  if (typeof(self.pageYOffset)=='number') {
+				sdown=self.pageYOffset;
+				sleft=self.pageXOffset;
+			  }
+			  else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+				sdown=document.body.scrollTop;
+				sleft=document.body.scrollLeft;
+			  }
+			  else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+				sleft=document.documentElement.scrollLeft;
+				sdown=document.documentElement.scrollTop;
+			  }
+			  else {
+				sdown=0;
+				sleft=0;
+			  }
+			}
+			
+			window.onresize=set_width;
+			function set_width() {
+			  var sw_min=999999;
+			  var sh_min=999999;
+			  if (document.documentElement && document.documentElement.clientWidth) {
+				if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
+				if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
+			  }
+			  if (typeof(self.innerWidth)=='number' && self.innerWidth) {
+				if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
+				if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
+			  }
+			  if (document.body.clientWidth) {
+				if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
+				if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
+			  }
+			  if (sw_min==999999 || sh_min==999999) {
+				sw_min=800;
+				sh_min=600;
+			  }
+			  swide=sw_min;
+			  shigh=sh_min;
+			}
+			
+			function createDiv(height, width) {
+			  var div=document.createElement("div");
+			  div.style.position="absolute";
+			  div.style.height=height+"px";
+			  div.style.width=width+"px";
+			  div.style.overflow="hidden";
+			  return (div);
+			}
+			
+			function newColour() {
+			  var c=new Array();
+			  c[0]=255;
+			  c[1]=Math.floor(Math.random()*256);
+			  c[2]=Math.floor(Math.random()*(256-c[1]/2));
+			  c.sort(function(){return (0.5 - Math.random());});
+			  return ("rgb("+c[0]+", "+c[1]+", "+c[2]+")");
+			}
+			// ]]>
+			</script>
+	</div>
+	<nav id="navbar">
+	  <ul>
+		<li><a href="inside.html">Home</a></li>
+		<li><a href="doors.html">Doors</a></li>
+		<li><img src="new.gif" title="WOW NEW"><a href="Mares.html">MARES</a></li>
+		<li><img src="new.gif" title="WOW NEW"><a href="askpinkie.html">Ask Pinkie</a></li>
+		<li><a href="Not Found.html">Link</a></li>
+		<li><a href="Not Found.html">Link</a></li>
+	  </ul>
+	</nav>
+
+<div id="container">
+	
+  <div id="flex">
+	<aside id="leftSidebar">
+	  <h2>Who is this loser?</h2>
+	  <div class="box">
+		<p>Im a college student from Chile who's deeply infatuated with horses</p>
+		<ul style="padding-left:10px;">
+			<h2>Some of my interests</h2>
+		  <li>Ponies</li>
+		  <li>Programming</li>
+		  <li>vibeo games</li>
+		  <li>Ponies</li>
+		</ul>
+	  </div>
+	</aside>
+	<main>
+	  <h1>Welcome to the filly fields</h1>
+
+	  <p><strong>7/2/2023 - Ask pinkie</strong></p>
+	  <p>Madame Pinkie, the enigmatic enchantress of divination, has arrived to guide you on your quest for answers! 
+		Step into the page on the header and let Madame Pinkie's intuitive prowess illuminate your path. 
+		With her keen insight and ancient wisdom, 
+		she will unravel the mysteries of the universe, unveiling the secrets that lie hidden within your queries. </p>
+
+	  <p><strong>7/2/2023 - Wow an update??</strong></p>
+	  <p>No way, an update? yeah so it seems I didn't lose interest in this page after the first day so here comes 
+		the first update, two new pages have been added, Doors and MARES (my favorite) im hoping to use that 
+		Doors page to link to other pages around Neocities or even link to some secret ones :3c</p>
+
+	  <p><strong>7/1/2023 - This site is born</strong></p>
+	  
+	  <p>After many days i've finally decided to rebuild my page, now even if it looks like a copied template, at least its readable now</p>
+	  <p>I hope this is one of many updates to come in the future, I'll probably use this page mainly as a blog and to shitpost so if thats something you like then feel free to follow this page if you want, but don't expect to see this page updated regularly.</p>
+	  <p>Anyways heres a Horse to celebrate</p>
+	  <img height="350px" src="closehorse.jpg" title="honse!!">
+
+	</main>
+	<aside id="rightSidebar">
+   <h2>Updates</h2>
+	  <div class="box">
+		<p>Just completed the whole redesign of this page, though calling it a redesign is disingenuous, I just copied a layout i really liked, i hope this is the first update of many to come</p>
+		<ul style="padding-left:10px;">
+			<h2>To-Do List:</h2>
+		  <li>Get most of the header links to actually go somewhere</li>
+		  <li>Change the colors, it  looks way to much like the template</li>
+		  <li>Music?</li>
+		  <li>Bring some of the old internet aesthetic</li>
+		</ul>
+	  </div>
+	</aside>
+
+	<div id="containerBottomRight">
+	<img id="Anonfilly" src="Anonfilly.png" title="hang in there filly.">
+	</div>
+
+	<audio id="audio" src="https://cdn.discordapp.com/attachments/654160670073421834/1124950525801144381/squee.mp3" preload="auto"></audio>
+	<script>
+		// Get the image and audio elements
+		var image = document.querySelector('#containerBottomRight img');
+		var audio = document.getElementById('audio');
+		// Attach a click event listener to the image
+		image.addEventListener('click', function() {
+		  // Play the audio
+		  audio.play();
+		});
+	  </script>
+
+  </div>
+  <footer id="footer"><a href="//lilyblossom.neocities.org/"><img src="/lfg.gif" alt="[Lily's Flower Garden!]" title="Lily's Flower Garden!"></a><img src="/windowsbutton.gif" alt="[Made with Windows]" title="Made with Windows">
+  <a href="https://skookz.neocities.org/fun%20stuff/monitor/monitor"><img src="k5aqaNt.gif" title="this site's only really functional on computers (any screen 1280x720 or above should be fine)" alt="computers only uwu"></a>
+  <a href="https://skookz.neocities.org/"><img src="/skookz.gif"> </a>
+</footer>
+  <footer id="footer">Keeping the ride alive /)</footer>
+</div>
+<!-- THIS IS THE CSS !-->
+<style>
+/* user styles */
+
+/* styles are what change the color and sizes of stuff on your site. */
+
+/* these are variables that are being used in the code
+these tended to confuse some people, so I only kept 
+the images as variables */
+
+:root {
+--header-image:url('/EquestriaNight.webp');
+--body-bg-image:url('/sparklebackground.gif');
+
+/* colors */
+--content:#6b5885;
+}
+
+/* if you have the URL of a font, you can set it below */
+/* feel free to delete this if it's not your vibe */
+
+/* this seems like a lot for just one font and I would have to agree 
+but I wanted to include an example of how to include a custom font.
+If you download a font file you can upload it onto your Neocities
+and then link it! Many fonts have separate files for each style
+(bold, italic, etc. T_T) which is why there are so many!
+
+*/
+
+@font-face {
+font-family: JMH Cthulhumbus Arcade UG;
+src: url('/Fonts/JMH\ Cthulhumbus\ Arcade\ UG.ttf');
+}
+
+@font-face {
+font-family: JMH Cthulhumbus Arcade UG;
+src: url('/Fonts/JMH\ Cthulhumbus\ Arcade\ UG.ttf');
+font-weight: bold;
+}
+
+@font-face {
+font-family: JMH Cthulhumbus Arcade UG;
+src: url('/Fonts/JMH\ Cthulhumbus\ Arcade\ UG.ttf');
+font-style: italic;
+}
+
+@font-face {
+font-family: JMH Cthulhumbus Arcade UG;
+src: url('/Fonts/JMH\ Cthulhumbus\ Arcade\ UG.ttf');
+font-style: italic;
+font-weight: bold;
+}
+
+body {
+font-family:'JMH Cthulhumbus Arcade UG', JMH Cthulhumbus Arcade UG;
+margin:0;
+background-color:#08031A;
+/* you can delete the line below if you'd prefer to not use an image */
+background-size:65px;
+color:#fceaff;
+background-image:var(--body-bg-image);
+}
+
+* {
+box-sizing:border-box;
+}
+
+body
+{
+    cursor: url("cursor.png"), auto;
+}
+
+
+/* below this line is CSS for the layout */
+
+/* this is a CSS comment
+to uncomment a line of CSS, remove the * and the /
+before and after the text */
+
+
+/* the "container" is what wraps your entire website */
+/* if you want something (like the header) to be Wider than
+the other elements, you will need to move that div outside
+of the container */
+#container {
+max-width:900px; /* this is the width of your layout! */
+/* if you change the above value, scroll to the bottom
+and change the media query according to the comment! */
+margin:  auto; /* this centers the entire page */
+}
+
+/* the area below is for all links on your page
+EXCEPT for the navigation */
+#container a {
+color:#36d322;
+font-weight:bold;
+/* if you want to remove the underline
+you can add a line below here that says:
+text-decoration:none; */
+}
+
+.emitted-image {
+    position: absolute;
+    pointer-events: none;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    border-radius: 50%;
+    opacity: 0.7;
+  }
+
+#containerBottomRight {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  max-width: 300px;
+  width: calc(100% - 220px);
+  height: 600px;
+  background-color: #ffffff00;
+  border: 0px solid #00000000;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+#header {
+width:100%;
+background-color:#3711aa; /* header color here! */
+height:200px;
+/* this is only for a background image! */
+/* if you want to put images IN the header, 
+you can add them directly to the <div id="header"></div> element! */
+background-image:var(--header-image);
+background-size:100%;
+}
+
+#Anonfilly {
+    position: absolute;
+    bottom: -100px;
+    right: -100px;
+  }
+
+/* navigation section!! */
+#navbar {
+height:40px;
+background-color:#13092D; /* navbar color */
+width:100%;
+}
+#navbar ul {
+display:flex;
+padding:0;
+margin:0;
+list-style-type:none;
+justify-content:space-evenly;
+}
+#navbar li {
+padding-top:10px;
+}
+
+/* navigation links*/
+#navbar li a {
+color:#6aeb20; /* navbar text color */
+font-weight:800;
+text-decoration:none; /* this removes the underline */
+}
+/* navigation link when a link is hovered over */
+#navbar li a:hover {
+color:#a49cba;
+text-decoration:underline;
+}
+#flex {
+display:flex;
+}
+
+/* this colors BOTH sidebars
+if you want to style them separately,
+create styles for #leftSidebar and #rightSidebar */
+aside {
+background-color:#241445;
+width:200px;
+padding:10px;
+font-size:smaller; /* this makes the sidebar text slightly smaller */
+}
+
+
+/* this is the color of the main content area,
+between the sidebars! */
+main {
+background-color:#43256E;
+flex:1;
+padding:20px;
+order:2;
+}
+
+/* what's this "order" stuff about??
+allow me to explain!
+if you're using both sidebars, the "order" value
+tells the CSS the order in which to display them.
+left sidebar is 1, content is 2, and right sidebar is 3! */
+
+*/
+#leftSidebar {
+order:1;
+}
+#rightSidebar {
+order:3;
+}
+
+footer {
+background-color:#13092D; /* background color for footer */
+width:100%;
+height:40px;
+padding:10px;
+text-align:center; /* this centers the footer text */
+}
+h1, h2, h3 {
+color:#ED64F5;
+}
+h1  {
+font-size:25px;
+}
+strong { /* this styles bold text */
+color:#ED64F5;
+}
+/* this is just a cool box, it's the darker colored one */
+.box {
+background-color:#13092D;
+border:1px solid #ED64F5;
+padding:10px;
+}
+
+/* CSS for extras */
+
+#topBar {
+width:100%;
+height:30px;
+padding:10px;
+font-size:smaller;
+background-color:#13092D;
+}
+
+/* so you wanna change the width of your page? 
+by default, the container width is 900px.
+in order to keep things responsive, take your new height,
+and then subtrack it by 100. use this new number as the 
+"max-width" value below
+*/
+
+@media only screen and (max-width: 800px) {
+#flex {
+flex-wrap:wrap;
+}
+aside {
+width:100%;
+}
+/* the order of the items is adjusted here for responsiveness!
+since the sidebars would be too small on a mobile device.
+feel free to play around with the order!
+*/
+main {
+order:1;
+}
+#leftSidebar {
+order:2;
+}
+#rightSidebar {
+order:3;
+}
+#navbar ul {
+flex-wrap:wrap;
+}
+}
+</style>
+
+
+     
+
+</body></html>
