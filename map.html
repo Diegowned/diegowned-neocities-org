@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Map</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('warp.gif'); /* Replace 'background.jpg' with the path to your desired background image */
+            background-position: center;
+        }
+
+        .icons-container {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            max-width: 600px;
+            width: 80%;
+            height: 80%;
+            background-image: url('map.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-color: #f2f2f200;
+            text-align: center;
+            line-height: 80px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+        }
+
+/* Example icon images */
+.icon.icon-1 {
+            background-image: url('horseshoe.gif');
+        }
+
+        .icon.icon-2 {
+            background-image: url('icon2.png');
+        }
+
+        .icon.icon-3 {
+            background-image: url('icon3.png');
+        }
+
+        .icon.icon-4 {
+            background-image: url('icon4.png');
+        }
+
+        .icon.icon-5 {
+            background-image: url('skull.gif');
+        }
+
+    </style>
+</head>
+<body>
+    <div class="icons-container">
+        <div class="icon icon-1" style="top: 30%; left: 20%;" onclick="window.location.href = '#page1';"></div>
+        <div class="icon icon-2" style="top: 40%; left: 45%;" onclick="window.location.href = '#page2';"></div>
+        <div class="icon icon-3" style="top: 60%; left: 30%;" onclick="window.location.href = '#page3';"></div>
+        <div class="icon icon-4" style="top: 70%; left: 50%;" onclick="window.location.href = '#page4';"></div>
+        <div class="icon icon-5" style="top: 50%; left: 70%;" onclick="window.location.href = '#page5';"></div>
+    </div>
+</body>
+</html>
